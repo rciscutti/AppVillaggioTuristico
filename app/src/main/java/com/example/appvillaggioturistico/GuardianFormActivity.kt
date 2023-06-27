@@ -11,15 +11,20 @@ import androidx.core.view.WindowCompat
 import com.example.appvillaggioturistico.databinding.ActivityGuardianFormBinding
 import com.example.appvillaggioturistico.databinding.ActivityMainBinding
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.util.Arrays
 
 class GuardianFormActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGuardianFormBinding
-
-    private lateinit var database: DatabaseReference
+    private lateinit var database: FirebaseDatabase
+    private lateinit var dbRef: DatabaseReference
+    private var guardiani: Array<String> = arrayOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -28,49 +33,68 @@ class GuardianFormActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        database = Firebase.database.reference
+        database = FirebaseDatabase.getInstance()
+        dbRef = database.getReference("/guardiano")
 
-        val guardiani: Array<String> = arrayOf("")
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-        database.child("guardiano").get().addOnSuccessListener {
-            Log.i("firebase", "Got value ${it.value}")
-            var nome: String
-            var cognome: String
-            for(guardiano: DataSnapshot in it.children){
-                nome = guardiano.child("nome").getValue(String::class.java).toString()
-                cognome = guardiano.child("cognome").getValue(String::class.java).toString()
-                guardiani.plus("${nome} ${cognome}")
-            }
-        }.addOnFailureListener{
-            Log.e("firebase", "Error getting data", it)
-        }
+                caricaGuardiani(dataSnapshot)
 
-        val spinner = binding.chooseGuardianSpinner
+                val spinner = binding.chooseGuardianSpinner
+                val adapter = ArrayAdapter<String>(
+                    this@GuardianFormActivity,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    guardiani
+                )
 
-        val adapter = ArrayAdapter<String>(
-            this,
-            android.R.layout.simple_spinner_dropdown_item,
-            guardiani
-        )
+                spinner.adapter = adapter
+                spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        if (position != 0) {
+                            Toast.makeText(
+                                applicationContext,
+                                "Il guardiano selezionato è ${guardiani[position]}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
 
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position != 0) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Il guardiano selezionato è ${guardiani[position]}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                        TODO("Not yet implemented")
+                    }
+
                 }
+
+
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Gestisci eventuali errori di recupero dati
             }
+        })
 
-        }
 
 
     }
+
+    private fun caricaGuardiani (dataSnapshot: DataSnapshot) {
+        var nome: String
+        var cognome: String
+
+
+        for (guardiano: DataSnapshot in dataSnapshot.children) {
+
+            nome = guardiano.child("nome").getValue(String::class.java).toString()
+            cognome = guardiano.child("cognome").getValue(String::class.java).toString()
+            guardiani = guardiani.plus("$nome $cognome")
+
+            Log.i("firebase", "GUARDIANI:  ${guardiani.contentToString()}")
+
+
+            Log.i("firebase", "Nome: $nome $cognome")
+
+        }
+    }
+
 }
