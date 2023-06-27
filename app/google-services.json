@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "565634742785",
+    "firebase_url": "https://appvillaggioturistico-default-rtdb.firebaseio.com",
+    "project_id": "appvillaggioturistico",
+    "storage_bucket": "appvillaggioturistico.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565634742785:android:ab6fe9d1d6d229c4331e00",
+        "android_client_info": {
+          "package_name": "com.example.appvillaggioturistico"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "565634742785-ngq05q3jo3k4ubeiml5rebnfk9lfckih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appvillaggioturistico",
+            "certificate_hash": "ba8c307ec5cf723df4a69e3da7dc68899f5225df"
+          }
+        },
+        {
+          "client_id": "565634742785-967rkfnqsnniot7a1kg0ks0u0ft24nqp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR-7k_lxgNspjk49I7vaTL5tcT2p5zbnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565634742785-967rkfnqsnniot7a1kg0ks0u0ft24nqp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
