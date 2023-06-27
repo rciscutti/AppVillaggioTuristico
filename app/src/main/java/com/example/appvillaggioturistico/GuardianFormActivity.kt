@@ -1,5 +1,6 @@
 package com.example.appvillaggioturistico
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import com.example.appvillaggioturistico.databinding.ActivityGuardianFormBinding
 import com.example.appvillaggioturistico.databinding.ActivityMainBinding
@@ -74,7 +76,17 @@ class GuardianFormActivity : AppCompatActivity() {
             }
         })
 
+        binding.inviaFormButton.setOnClickListener {
+            val switchActivityIntent = Intent(
+                this,
+                HomeActivity::class.java
+            )
 
+            val bundle = bundleOf("nome_guardiano" to binding.chooseGuardianSpinner.selectedItem)
+
+            switchActivityIntent.putExtras(bundle)
+            startActivity(switchActivityIntent)
+        }
 
     }
 
