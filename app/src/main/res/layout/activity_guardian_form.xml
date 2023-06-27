@@ -8,5 +8,36 @@
     android:fitsSystemWindows="true"
     tools:context=".GuardianFormActivity">
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="270dp"
+        android:layout_height="46dp"
+        android:elevation="4dp"
+        android:entries="@android:array/emailAddressTypes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.48" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invia"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="423dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scegli il nominativo:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="116dp"
+        tools:layout_editor_absoluteY="254dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
