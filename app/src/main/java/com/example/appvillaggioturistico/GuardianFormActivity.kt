@@ -21,28 +21,34 @@ class GuardianFormActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val guardiani = arrayOf("Alice", "Bob", "Charlie", "Dave")
+        val guardiani = arrayOf("", "Alice", "Bob", "Charlie", "Dave")
 
         val spinner = binding.chooseGuardianSpinner
 
-        val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, guardiani)
+        val adapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            guardiani
+        )
 
-        spinner.adapter = arrayAdapter
-        spinner.onItemClickListener = object : AdapterView.OnItemSelectedListener,
-            AdapterView.OnItemClickListener {
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position != 0) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Il guardiano selezionato è ${guardiani[position]}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
 
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(applicationContext, "Click", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Toast.makeText(applicationContext, "Il guardiano selezionato è ${guardiani[position]}", Toast.LENGTH_SHORT).show()
-            }
         }
+
 
     }
 }
