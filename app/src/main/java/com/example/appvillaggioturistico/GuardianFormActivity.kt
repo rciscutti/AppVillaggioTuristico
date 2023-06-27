@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.view.WindowCompat
 import com.example.appvillaggioturistico.databinding.ActivityGuardianFormBinding
 import com.example.appvillaggioturistico.databinding.ActivityMainBinding
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -29,13 +30,20 @@ class GuardianFormActivity : AppCompatActivity() {
 
         database = Firebase.database.reference
 
+        val guardiani: Array<String> = arrayOf("")
+
         database.child("guardiano").get().addOnSuccessListener {
             Log.i("firebase", "Got value ${it.value}")
+            var nome: String
+            var cognome: String
+            for(guardiano: DataSnapshot in it.children){
+                nome = guardiano.child("nome").getValue(String::class.java).toString()
+                cognome = guardiano.child("cognome").getValue(String::class.java).toString()
+                guardiani.plus("${nome} ${cognome}")
+            }
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
         }
-
-        val guardiani = arrayOf("", "Alice", "Bob", "Charlie", "Dave")
 
         val spinner = binding.chooseGuardianSpinner
 
